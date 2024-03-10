@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 
@@ -20,6 +21,21 @@
  */
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
+static int sdram_test(void)
+{
+	int res = 0;
+	char *p = (char *)0xc0000000;
+	char *q = (char *)0xc0000000 + 512;
+	memset(p, 'a', 512);
+	memset(q, 'a', 512);
+	if(!(res = memcmp(q, p, 512)))
+		printk("sdram test ok!!!\n");
+	else
+	 	printk("sdram test error!!!\n");
+
+	return res;
+}
+
 int main(void)
 {
 	int ret;
@@ -33,15 +49,14 @@ int main(void)
 	if (ret < 0) {
 		return 0;
 	}
-
+	printk("hello zephyr.\n");
+	sdram_test();
 	while (1) {
 		ret = gpio_pin_toggle_dt(&led);
 		if (ret < 0) {
 			return 0;
 		}
-
 		led_state = !led_state;
-		printf("LED state: %s\n", led_state ? "ON" : "OFF");
 		k_msleep(SLEEP_TIME_MS);
 	}
 	return 0;
