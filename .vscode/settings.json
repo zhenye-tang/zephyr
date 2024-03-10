@@ -1,0 +1,9 @@
+{
+    "clangd.arguments": [
+        "--background-index",
+        "--compile-commands-dir=/home/tzy/zephyrproject/zephyr/build",
+        "--clang-tidy",
+        "--clang-tidy-checks=performance-*,bugprone-*",
+        "--completion-style=detailed",
+        ]
+}
