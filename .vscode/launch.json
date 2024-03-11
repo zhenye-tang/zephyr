@@ -2,20 +2,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "zephyr",
-            "type": "cppdbg", // 需要安装 C/C++ 插件
+            "name": "zephyr-linux",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "/home/tzy/zephyrproject/zephyr/build/zephyr/zephyr.elf",
+            "program": "${workspaceRoot}/build/zephyr/zephyr.elf",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceRoot}",
             "externalConsole": true,
-            "miDebuggerServerAddress": "localhost:3333", // 指定 gdb server 端口，默认端口为 1234
+            "miDebuggerServerAddress": "localhost:3333",
             "serverLaunchTimeout": 2000,
             "targetArchitecture": "ARM",
             "launchCompleteCommand": "exec-run",
             "MIMode": "gdb",
-            "miDebuggerPath": "/home/tzy/zephyr-sdk-0.16.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+            "miDebuggerPath": "/home/null/zephyr-sdk-0.16.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

@@ -13,13 +13,14 @@
 #define SLEEP_TIME_MS   1000
 
 /* The devicetree node identifier for the "led0" alias. */
-#define LED0_NODE DT_ALIAS(led0)
-
+#define LED_BLUE DT_ALIAS(led0)
+#define LED_RED DT_ALIAS(led1)
 /*
  * A build error on this line means your board is unsupported.
  * See the sample documentation for information on how to fix this.
  */
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(LED_BLUE, gpios);
+static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(LED_RED, gpios);
 
 static int sdram_test(void)
 {
@@ -38,25 +39,20 @@ static int sdram_test(void)
 
 int main(void)
 {
-	int ret;
-	bool led_state = true;
-
-	if (!gpio_is_ready_dt(&led)) {
-		return 0;
-	}
-
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return 0;
-	}
 	printk("hello zephyr.\n");
+	if (!gpio_is_ready_dt(&led_blue) && !gpio_is_ready_dt(&led_red)) {
+		return 0;
+	}
+
+	if (gpio_pin_configure_dt(&led_blue, GPIO_OUTPUT_ACTIVE) < 0 || gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE) < 0) {
+		return 0;
+	}
+
 	sdram_test();
 	while (1) {
-		ret = gpio_pin_toggle_dt(&led);
-		if (ret < 0) {
+		if (gpio_pin_toggle_dt(&led_blue) < 0 || gpio_pin_toggle_dt(&led_red)) {
 			return 0;
 		}
-		led_state = !led_state;
 		k_msleep(SLEEP_TIME_MS);
 	}
 	return 0;
