@@ -18,6 +18,7 @@
 		zephyr,shell-uart = &uart4;
 		zephyr,sram = &sram0;
 		zephyr,flash = &flash0;
+		spi-flash0 = &w25q64jv;
 	};
 
 	leds {
@@ -87,6 +88,23 @@
 	pinctrl-names = "default";
 	current-speed = <115200>;
 	status = "okay";
+};
+
+&quadspi {
+	pinctrl-0 = <&quadspi_clk_pf10 &quadspi_bk1_ncs_pg6
+			&quadspi_bk1_io0_pf8 &quadspi_bk1_io1_pf9
+			&quadspi_bk1_io2_pf7 &quadspi_bk1_io3_pf6>;
+	pinctrl-names = "default";
+
+	status = "okay";
+	w25q64jv: qspi-nor-flash@90000000 {
+			compatible = "st,stm32-qspi-nor";
+			reg = <0x90000000 DT_SIZE_M(8)>; /* 128 Mbits */
+			qspi-max-frequency = <80000000>;
+			jedec-id = [ef 40 18];
+			spi-bus-width = <4>;
+			status = "okay";
+	};
 };
 
 &fmc {

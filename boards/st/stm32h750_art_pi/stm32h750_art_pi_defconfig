@@ -1,8 +1,8 @@
 # Copyright (c) 2023 STMicroelectronics
 # SPDX-License-Identifier: Apache-2.0
 
-# Enable MPU
-CONFIG_ARM_MPU=y
+# # Enable MPU
+# CONFIG_ARM_MPU=y
 
 # Enable HW stack protection
 CONFIG_HW_STACK_PROTECTION=y
@@ -21,3 +21,6 @@ CONFIG_CLOCK_CONTROL=y
 
 # enable pin controller
 CONFIG_PINCTRL=y
+
+# Enable FMC
+CONFIG_FLASH=y
